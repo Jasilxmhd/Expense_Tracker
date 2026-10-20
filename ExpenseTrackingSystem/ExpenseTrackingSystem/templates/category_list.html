@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Categories - Expense Tracker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <style>
+
+        :root {
+            --bg: #08080D;
+            --sidebar: #0E0E16;
+            --card: #15141F;
+            --card-hover: #1C1B27;
+            --border: #292735;
+            --text: #F5F5F7;
+            --muted: #92909D;
+            --teal: #00D4C7;
+            --cyan: #19C7D8;
+            --danger: #FF5C7A;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family: 'Poppins', sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 80% 10%,
+                    rgba(0, 212, 199, 0.08),
+                    transparent 30%
+                ),
+                var(--bg);
+
+            color: var(--text);
+
+            min-height: 100vh;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 250px;
+
+            min-height: 100vh;
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            background: rgba(14, 14, 22, 0.96);
+
+            border-right: 1px solid var(--border);
+
+            padding: 25px 18px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            text-decoration: none;
+
+            color: var(--text);
+
+            font-size: 19px;
+
+            font-weight: 600;
+
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--teal),
+                    var(--cyan)
+                );
+
+            color: #08080D;
+
+            font-size: 20px;
+
+            box-shadow:
+                0 0 20px rgba(0, 212, 199, 0.20);
+        }
+
+        .menu-title {
+            color: #5F5D6A;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            letter-spacing: 1px;
+
+            margin: 10px 12px;
+        }
+
+        .side-link {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px 14px;
+
+            margin-bottom: 6px;
+
+            border-radius: 9px;
+
+            color: var(--muted);
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.25s;
+        }
+
+        .side-link i {
+            font-size: 17px;
+        }
+
+        .side-link:hover {
+            color: var(--text);
+
+            background: var(--card);
+        }
+
+        .side-link.active {
+            color: var(--teal);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0, 212, 199, 0.15),
+                    rgba(0, 212, 199, 0.03)
+                );
+
+            border-left: 2px solid var(--teal);
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+
+            padding-top: 20px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .logout-link {
+            color: var(--danger);
+        }
+
+        .logout-link:hover {
+            color: #FF7890;
+
+            background: rgba(255, 92, 122, 0.08);
+        }
+
+        /* MAIN */
+
+        .main {
+            width: calc(100% - 250px);
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+            padding: 45px;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            display: flex;
+
+            justify-content: flex-end;
+
+            align-items: center;
+
+            margin-bottom: 35px;
+
+            padding-bottom: 20px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .welcome {
+            color: var(--muted);
+
+            font-size: 13px;
+
+            margin-right: 15px;
+        }
+
+        .username {
+            color: var(--teal);
+
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            color: var(--text);
+
+            background: var(--card);
+
+            border: 1px solid var(--border);
+
+            border-radius: 9px;
+
+            padding: 9px 17px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.25s;
+        }
+
+        .logout-btn:hover {
+            color: var(--danger);
+
+            border-color: var(--danger);
+
+            background: rgba(255, 92, 122, 0.06);
+        }
+
+        /* PAGE HEADER */
+
+        .page-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+
+            gap: 20px;
+        }
+
+        .page-title {
+            font-size: 30px;
+
+            font-weight: 600;
+
+            margin-bottom: 5px;
+        }
+
+        .page-subtitle {
+            color: var(--muted);
+
+            font-size: 13px;
+
+            margin: 0;
+        }
+
+        /* ADD BUTTON */
+
+        .btn-add {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--teal),
+                    var(--cyan)
+                );
+
+            color: #08080D;
+
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 11px 18px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition: 0.25s;
+
+            white-space: nowrap;
+        }
+
+        .btn-add:hover {
+            color: #08080D;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 212, 199, 0.20);
+        }
+
+        /* CATEGORY CARD */
+
+        .category-card {
+            background: var(--card);
+
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+
+            padding: 25px;
+
+            overflow: hidden;
+        }
+
+        /* TABLE */
+
+        .table {
+            margin: 0;
+        }
+
+        .table th {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            font-weight: 500;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.4px;
+
+            border-bottom: 1px solid var(--border);
+
+            padding: 14px 10px;
+
+            background: transparent;
+        }
+
+        .table td {
+            color: var(--text);
+
+            font-size: 13px;
+
+            border-bottom: 1px solid var(--border);
+
+            padding: 16px 10px;
+
+            vertical-align: middle;
+
+            background: transparent;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tbody tr {
+            transition: 0.2s;
+        }
+
+        .table tbody tr:hover td {
+            background: rgba(0, 212, 199, 0.025);
+        }
+
+        .category-id {
+            color: var(--muted);
+        }
+
+        .category-name {
+            color: var(--cyan);
+
+            font-weight: 500;
+        }
+
+        .category-description {
+            color: var(--muted);
+
+            max-width: 350px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+        .created-date {
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        /* ACTIONS */
+
+        .actions {
+            display: flex;
+
+            gap: 7px;
+        }
+
+        .action-btn {
+            width: 34px;
+
+            height: 34px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            border: 1px solid var(--border);
+
+            background: #111018;
+
+            transition: 0.2s;
+        }
+
+        .edit-btn {
+            color: var(--teal);
+        }
+
+        .edit-btn:hover {
+            color: var(--teal);
+
+            border-color: var(--teal);
+
+            background: rgba(0, 212, 199, 0.08);
+        }
+
+        .delete-btn {
+            color: var(--danger);
+        }
+
+        .delete-btn:hover {
+            color: var(--danger);
+
+            border-color: var(--danger);
+
+            background: rgba(255, 92, 122, 0.08);
+        }
+
+        /* EMPTY */
+
+        .empty {
+            text-align: center;
+
+            padding: 70px 20px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        .empty i {
+            display: block;
+
+            font-size: 45px;
+
+            margin-bottom: 15px;
+
+            color: #494755;
+        }
+
+        .empty-title {
+            color: var(--text);
+
+            font-size: 16px;
+
+            margin-bottom: 5px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 991px) {
+
+            .sidebar {
+                width: 75px;
+
+                padding: 25px 10px;
+            }
+
+            .logo span,
+            .menu-title,
+            .side-link span {
+                display: none;
+            }
+
+            .logo {
+                justify-content: center;
+            }
+
+            .side-link {
+                justify-content: center;
+            }
+
+            .main {
+                width: calc(100% - 75px);
+
+                margin-left: 75px;
+
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                width: 100%;
+
+                margin-left: 0;
+
+                padding: 25px 15px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 25px;
+            }
+
+            .btn-add {
+                width: 100%;
+
+                justify-content: center;
+            }
+
+            .category-card {
+                padding: 15px;
+            }
+
+            .topbar {
+                margin-bottom: 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <aside class="sidebar">
+
+
+        <a href="{% url 'dashboard' %}"
+           class="logo">
+
+            <div class="logo-icon">
+
+                <i class="bi bi-wallet2"></i>
+
+            </div>
+
+            <span>
+                Expense Tracker
+            </span>
+
+        </a>
+
+
+        <div class="menu-title">
+            MAIN
+        </div>
+
+
+        <a href="{% url 'dashboard' %}"
+           class="side-link">
+
+            <i class="bi bi-grid-1x2-fill"></i>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'category_list' %}"
+           class="side-link active">
+
+            <i class="bi bi-tags"></i>
+
+            <span>
+                Manage Categories
+            </span>
+
+        </a>
+
+
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'logout' %}"
+               class="side-link logout-link">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+    <main class="main">
+
+
+        <div class="topbar">
+
+            <div class="welcome">
+
+                Welcome,
+
+                <span class="username">
+                    {{ request.user.username }}
+                </span>
+
+            </div>
+
+
+            <a href="{% url 'logout' %}"
+               class="logout-btn">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+
+        <div class="page-header">
+
+
+            <div>
+
+                <h1 class="page-title">
+
+                    <i class="bi bi-tags"
+                       style="color: var(--teal);">
+                    </i>
+
+                    Categories
+
+                </h1>
+
+                <p class="page-subtitle">
+
+                    Create and manage your expense categories.
+
+                </p>
+
+            </div>
+
+
+            <a href="{% url 'category_create' %}"
+               class="btn-add">
+
+                <i class="bi bi-plus-lg"></i>
+
+                Add Category
+
+            </a>
+
+
+        </div>
+
+
+        <div class="category-card">
+
+
+            {% if categories %}
+
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                ID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                            <th>
+                                Created At
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for category in categories %}
+
+
+                        <tr>
+
+
+                            <td class="category-id">
+
+                                #{{ category.id }}
+
+                            </td>
+
+
+                            <td class="category-name">
+
+                                {{ category.name }}
+
+                            </td>
+
+
+                            <td class="category-description">
+
+                                {{ category.description|default:"—" }}
+
+                            </td>
+
+
+                            <td class="created-date">
+
+                                {{ category.created_at|date:"d M Y, h:i A" }}
+
+                            </td>
+
+
+                            <td>
+
+
+                                <div class="actions">
+
+
+                                    <a href="{% url 'category_update' category.id %}"
+                                       class="action-btn edit-btn"
+                                       title="Edit">
+
+                                        <i class="bi bi-pencil"></i>
+
+                                    </a>
+
+
+                                    <a href="{% url 'category_delete' category.id %}"
+                                       class="action-btn delete-btn"
+                                       title="Delete">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </a>
+
+
+                                </div>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+
+            {% else %}
+
+
+            <div class="empty">
+
+                <i class="bi bi-tags"></i>
+
+                <div class="empty-title">
+                    No Categories Found
+                </div>
+
+                <div>
+                    Add your first category to start organizing expenses.
+                </div>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>
